@@ -2063,18 +2063,19 @@ def wttabled1(f, tid, t, d, title=None, form="{:16.9E}{:16.9E}", tablestr="TABLE
         f.write(f"{tablestr:<8s}{tid:8d}\n")
         rows = npts // 4
         r = rows * 4
-        writer.vecwrite(
-            f,
-            "        " + form * 4 + "\n",
-            t[:r:4],
-            d[:r:4],
-            t[1:r:4],
-            d[1:r:4],
-            t[2:r:4],
-            d[2:r:4],
-            t[3:r:4],
-            d[3:r:4],
-        )
+        if r != 0:
+            writer.vecwrite(
+                f,
+                "        " + form * 4 + "\n",
+                t[:r:4],
+                d[:r:4],
+                t[1:r:4],
+                d[1:r:4],
+                t[2:r:4],
+                d[2:r:4],
+                t[3:r:4],
+                d[3:r:4],
+            )
         f.write("        ")
         for j in range(r, npts):
             f.write(form.format(t[j], d[j]))

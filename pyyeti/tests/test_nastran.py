@@ -550,12 +550,24 @@ def test_wtgrids():
 
 
 def test_wttabled1():
+
+    # 8 fixed-field format
+    with StringIO() as f:
+        nastran.wttabled1(f, 5000, [1, 2], [1, 2], form="{:8.2f}{:8.2f}")
+        s = f.getvalue()
+    sbe8 = (
+        "TABLED1     5000\n"
+        "            1.00    1.00    2.00    2.00ENDT\n"
+    )
+    assert s == sbe8
+
+    # 16 fixed-field format
     t = np.arange(0, 1, 0.05)
     d = np.sin(2 * np.pi * 3 * t)
     with StringIO() as f:
         nastran.wttabled1(f, 4000, t, d, form="{:16.2f}{:16.5f}")
         s = f.getvalue()
-    sbe = (
+    sbe16 = (
         "TABLED1*            4000\n"
         "*\n"
         "*                   0.00         0.00000            0.05         0.80902\n"
@@ -570,7 +582,8 @@ def test_wttabled1():
         "*                   0.90        -0.95106            0.95        -0.80902\n"
         "*       ENDT\n"
     )
-    assert s == sbe
+    assert s == sbe16
+
     with pytest.raises(ValueError):
         nastran.wttabled1(1, 10, [1, 2], 1)
     with pytest.raises(ValueError):

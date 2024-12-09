@@ -5069,7 +5069,7 @@ def test_newmark_nonlinear2():
 
     # compare to nastran:
     def _get_max_err(dct, x):
-        return abs(np.row_stack((dct[2], dct[12])) - x[:2]).max()
+        return abs(np.vstack((dct[2], dct[12])) - x[:2]).max()
 
     for x in "dva":
         assert _get_max_err(nas[x.upper()], getattr(sol, x)) < 0.001
@@ -5086,7 +5086,7 @@ def test_newmark_nonlinear2():
 
     # compare to nastran:
     def _get_max_err(dct, x):
-        return abs(np.row_stack((dct[2], dct[12])) - x[:2]).max()
+        return abs(np.vstack((dct[2], dct[12])) - x[:2]).max()
 
     for x in "dva":
         assert _get_max_err(nas[x.upper()], getattr(sol, x)) < 0.001
@@ -5542,7 +5542,7 @@ def test_newmark_nonlinear3():
     nas = get_nas2()
 
     def _get_max_err(dct, x):
-        return abs(np.row_stack((dct[2], dct[12])) - x[:2]).max()
+        return abs(np.vstack((dct[2], dct[12])) - x[:2]).max()
 
     for x in "dva":
         assert _get_max_err(nas[x.upper()], getattr(sol, x)) < 0.001
@@ -5632,7 +5632,7 @@ def run_solvers_cd_as_forces(m, b, k, h, order, rf, f):
 
 def test_solveunc_cd_as_force():
     def _ensure_minmax(a, mn, mx):
-        sc = (mx - mn) / a.ptp()
+        sc = (mx - mn) / np.ptp(a)
         return sc * (a - a.min()) + mn
 
     np.random.seed(0)
